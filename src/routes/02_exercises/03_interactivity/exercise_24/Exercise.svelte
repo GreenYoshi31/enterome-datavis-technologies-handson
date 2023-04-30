@@ -10,13 +10,16 @@
   onMount(async () => {
     data = await json("/data/gapminder.json");
   });
+
+  let year = 0;
+  let selected = ["europe", "asia", "americas", "africa"];
 </script>
 
 {#if !data}
   <p>Loading the data, please wait...</p>
 {:else}
   <div>
-    <Scatterplot data={data[0]['countries']} />
-    <Controls {data} />
-  </div>
+    <Scatterplot data={data[year]['countries'].filter(d => selected.includes(d.continent))} />
+    <Controls {data} bind:year bind:selected/>
+  </div>
 {/if}
